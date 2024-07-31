@@ -9,15 +9,15 @@ export class UserService {
     return user;
   }
 
-  public async findByEmailOrNickname(input: string): Promise<User | null> {
+  public async findByEmailOrNickname(login: string): Promise<User | null> {
     let user: User | null = null;
-    if (input.includes("@")) {
+    if (login.includes("@")) {
       user = await prismaClient.user.findUnique({
-        where: { email: input },
+        where: { email: login },
       });
     } else {
       user = await prismaClient.user.findUnique({
-        where: { nickname: input },
+        where: { nickname: login },
       });
     }
 

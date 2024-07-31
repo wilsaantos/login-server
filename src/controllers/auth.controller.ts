@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
   try {
     if (await userService.findByEmailOrNickname(body.email))
       return res.status(400).send({
-        error: "Conta Já Cadastrada",
+        message: "Conta Já Cadastrada",
       });
 
     const hash = await bcrypt.hash(req.body.password, 10);
@@ -30,15 +30,15 @@ router.post("/register", async (req, res) => {
     console.log(err);
     return res.status(500).send({
       error: err,
-      message: 'Falha ao Registrar Conta.'
+      message: "Falha ao Registrar Conta.",
     });
   }
 });
 
 router.post("/authenticate", async (req, res) => {
-  const { input, password } = req.body;
+  const { login, password } = req.body;
 
-  const user = await userService.findByEmailOrNickname(input);
+  const user = await userService.findByEmailOrNickname(login);
 
   if (!user)
     return res.status(404).send({
@@ -46,7 +46,7 @@ router.post("/authenticate", async (req, res) => {
     });
 
   if (!(await bcrypt.compare(password, user.password)))
-    return res.status(400).send({
+    return res.status(401).send({
       message: "Senha Inválida",
     });
 
@@ -62,8 +62,15 @@ router.post("/authenticate", async (req, res) => {
     }
   );
 
+  const userInfo = {
+    name: user.name,
+    nickname: user.nickname,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+  };
+
   res.send({
-    user,
+    userInfo,
     token,
   });
 });
