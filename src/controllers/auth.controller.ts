@@ -20,7 +20,6 @@ router.post("/register", async (req, res) => {
 
     const hash = await bcrypt.hash(req.body.password, 10);
     req.body.password = hash;
-    req.body.updatedBy = "";
 
     const user = await userService.create(req.body);
 
@@ -28,6 +27,7 @@ router.post("/register", async (req, res) => {
       message: "Conta Registrada Com Sucesso.",
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).send({
       error: err,
       message: 'Falha ao Registrar Conta.'

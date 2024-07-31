@@ -1,8 +1,7 @@
-
 import { prismaClient } from "../const/prisma";
 import { User } from "../models/user";
 export class UserService {
-  public async findById(userId: string): Promise<User | null> {
+  public async findById(userId: number): Promise<User | null> {
     const user: User | null = await prismaClient.user.findUnique({
       where: { id: userId },
     });
@@ -35,7 +34,6 @@ export class UserService {
   }
 
   async update(user: User): Promise<User | null> {
-    user.updatedAt = new Date();
     await prismaClient.user.update({ data: user, where: { id: user.id } });
     return user;
   }

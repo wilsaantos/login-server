@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  id: number;
   name: string;
   nickname: string;
   email: string;
@@ -7,8 +7,6 @@ export interface User {
   phoneNumber: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt: Date;
-  updatedBy: string;
 }
 
 enum Role {

@@ -27,7 +27,5 @@ model User {
   phoneNumber String
   createdAt   DateTime @default(now())
   createdBy   String   @default("system")
-  updatedAt   DateTime @default(now()) @updatedAt
-  updatedBy   String
   role        Role     @default(USER)
 }
